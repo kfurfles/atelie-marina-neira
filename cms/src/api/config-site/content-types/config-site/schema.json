@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "config_site",
+  "info": {
+    "singularName": "config-site",
+    "pluralName": "config-sites",
+    "displayName": "Config Site",
+    "description": "Textos globais, contatos e ajustes que aparecem no site"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "whatsapp_numero": {
+      "type": "string",
+      "required": true,
+      "description": "Formato E.164 sem +, ex: 5511999999999"
+    },
+    "instagram_url": {
+      "type": "string"
+    },
+    "frase_filosofia": {
+      "type": "text"
+    },
+    "hero_titulo": {
+      "type": "string"
+    },
+    "hero_subtitulo": {
+      "type": "string"
+    },
+    "texto_selo_autografo": {
+      "type": "richtext"
+    },
+    "texto_cuidados_geral": {
+      "type": "richtext"
+    }
+  }
+}

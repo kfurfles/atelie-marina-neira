@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "sobre",
+  "info": {
+    "singularName": "sobre",
+    "pluralName": "sobres",
+    "displayName": "Sobre",
+    "description": "Página Sobre Marina"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "foto_marina": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "timeline": {
+      "type": "component",
+      "component": "timeline.evento",
+      "repeatable": true
+    }
+  }
+}

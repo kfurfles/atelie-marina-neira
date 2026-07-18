@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_timeline_evento",
+  "info": {
+    "displayName": "Evento da timeline",
+    "icon": "calendar",
+    "description": "Um marco na trajetória da Marina"
+  },
+  "options": {},
+  "attributes": {
+    "ano": {
+      "type": "integer",
+      "required": true
+    },
+    "titulo": {
+      "type": "string",
+      "required": true
+    },
+    "descricao": {
+      "type": "text"
+    }
+  }
+}

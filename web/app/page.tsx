@@ -1,0 +1,24 @@
+import { getCategorias, getProdutos, getSobre } from '@/lib/strapi';
+import { getConfig } from '@/lib/config';
+import { Hero } from '@/components/Hero';
+import { FeaturedGrid } from '@/components/FeaturedGrid';
+import { CategoriesShowcase } from '@/components/CategoriesShowcase';
+import { SobreTeaser } from '@/components/SobreTeaser';
+
+export default async function HomePage() {
+  const [config, sobre, destaques, categorias] = await Promise.all([
+    getConfig(),
+    getSobre(),
+    getProdutos({ destaque: true, limit: 6 }),
+    getCategorias(),
+  ]);
+
+  return (
+    <>
+      <Hero config={config} sobre={sobre} />
+      <FeaturedGrid produtos={destaques} />
+      <CategoriesShowcase categorias={categorias} />
+      <SobreTeaser sobre={sobre} />
+    </>
+  );
+}

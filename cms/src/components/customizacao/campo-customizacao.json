@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_customizacao_campo_customizacao",
+  "info": {
+    "displayName": "Campo de customização",
+    "icon": "cog",
+    "description": "Campo extra que uma categoria de peça aceita (ex: nº de furos, aroma)"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "tipo": {
+      "type": "enumeration",
+      "enum": ["dropdown", "texto", "numero"],
+      "required": true,
+      "default": "texto"
+    },
+    "opcoes": {
+      "type": "string",
+      "description": "Para tipo=dropdown, opções separadas por vírgula (ex: pequeno, médio, grande)"
+    }
+  }
+}

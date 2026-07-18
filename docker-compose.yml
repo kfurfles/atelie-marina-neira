@@ -1,0 +1,41 @@
+services:
+  cms:
+    build:
+      context: ./cms
+      dockerfile: Dockerfile
+    container_name: marina-cms
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./cms:/app
+      - cms_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=1337
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: marina-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+      - web_node_modules:/app/node_modules
+      - web_next:/app/.next
+    environment:
+      - NODE_ENV=development
+      - STRAPI_URL=http://cms:1337
+      - NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    depends_on:
+      - cms
+    restart: unless-stopped
+
+volumes:
+  cms_node_modules:
+  web_node_modules:
+  web_next:

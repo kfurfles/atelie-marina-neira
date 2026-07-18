@@ -1,0 +1,80 @@
+# ─── Node / packages ─────────────────────────────
+node_modules/
+.pnpm-store/
+.npm/
+*.tgz
+
+# ─── Builds ──────────────────────────────────────
+dist/
+build/
+out/
+.next/
+.turbo/
+.swc/
+*.tsbuildinfo
+
+# ─── Next.js ─────────────────────────────────────
+web/.next/
+web/out/
+web/.vercel/
+# next-env.d.ts é gerado mas DEVE ser commitado (mantém tipos)
+# não incluir aqui
+
+# ─── Strapi ──────────────────────────────────────
+cms/.tmp/
+cms/.cache/
+cms/.strapi/
+cms/build/
+cms/dist/
+cms/database/*.db
+cms/database/*.db-journal
+cms/database/*.db-shm
+cms/database/*.db-wal
+cms/public/uploads/
+!cms/public/uploads/.gitkeep
+cms/exports/
+cms/types/generated/
+
+# ─── Env / secrets (nunca commitar) ──────────────
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+!/deploy/**/*.example
+
+# ─── Backup / dump ───────────────────────────────
+*.sql
+*.sql.gz
+*.dump
+backup/
+backups/
+
+# ─── Logs ────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── OS / editor ─────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── Docker (dados locais) ───────────────────────
+.docker-data/
+
+# ─── Scratchpad / testes locais ──────────────────
+scratch/
+scratchpad/
+tmp/
+
+# ─── Claude Code local config ────────────────────
+.claude/
