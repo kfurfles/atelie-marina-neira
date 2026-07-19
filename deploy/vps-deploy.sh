@@ -69,13 +69,29 @@ ls -1t "$ROOT/releases" | tail -n +4 | while read old; do
   rm -rf "$ROOT/releases/$old"
 done
 
-# Health check
-sleep 4
-CMS_OK=$(curl -sf http://127.0.0.1:1337/admin -o /dev/null -w "%{http_code}" || echo "fail")
-WEB_OK=$(curl -sf http://127.0.0.1:3000 -o /dev/null -w "%{http_code}" || echo "fail")
-echo "[deploy] cms=$CMS_OK web=$WEB_OK"
+# Health check com retry (Strapi + Postgres podem levar 20-40s pra subir)
+wait_for() {
+  local url="$1" name="$2" tries=20
+  for i in $(seq 1 $tries); do
+    if curl -sf -o /dev/null "$url"; then
+      echo "[deploy] $name OK ($(( i * 3 ))s)"
+      return 0
+    fi
+    sleep 3
+  done
+  echo "[deploy] $name FAILED após $(( tries * 3 ))s"
+  return 1
+}
 
-if [ "$CMS_OK" != "200" ] || [ "$WEB_OK" != "200" ]; then
+FAILED=0
+if [ "$TARGET" = "both" ] || [ "$TARGET" = "cms" ]; then
+  wait_for "http://127.0.0.1:1337/admin" "cms" || FAILED=1
+fi
+if [ "$TARGET" = "both" ] || [ "$TARGET" = "web" ]; then
+  wait_for "http://127.0.0.1:3000" "web" || FAILED=1
+fi
+
+if [ "$FAILED" != "0" ]; then
   echo "[deploy] HEALTHCHECK FAILED"
   exit 1
 fi
