@@ -21,7 +21,8 @@ env:
   # URLs públicas usadas no build do Next (viram NEXT_PUBLIC_*)
   NEXT_PUBLIC_STRAPI_URL: https://admin.ateliemarinaneira.com.br
   NEXT_PUBLIC_SITE_URL: https://ateliemarinaneira.com.br
-  STRAPI_URL: http://127.0.0.1:1337
+  # Build-time STRAPI_URL aponta pro público. Em runtime, VPS sobrescreve com http://127.0.0.1:1337 via web.env
+  STRAPI_URL: https://admin.ateliemarinaneira.com.br
 
 jobs:
   deploy:
