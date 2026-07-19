@@ -1,0 +1,86 @@
+name: Deploy to VPS
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'O que deployar'
+        type: choice
+        options:
+          - both
+          - web
+          - cms
+        default: both
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '20'
+  # URLs públicas usadas no build do Next (viram NEXT_PUBLIC_*)
+  NEXT_PUBLIC_STRAPI_URL: https://admin.ateliemarinaneira.com.br
+  NEXT_PUBLIC_SITE_URL: https://ateliemarinaneira.com.br
+  STRAPI_URL: http://127.0.0.1:1337
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: |
+            web/package-lock.json
+            cms/package-lock.json
+
+      - name: Build web
+        if: inputs.target == 'both' || inputs.target == 'web'
+        working-directory: web
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Build cms
+        if: inputs.target == 'both' || inputs.target == 'cms'
+        working-directory: cms
+        run: |
+          npm ci --legacy-peer-deps --no-audit --no-fund
+          NODE_ENV=production npm run build
+
+      - name: Set release name
+        id: release
+        run: echo "name=$(date -u +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+
+      - name: Package release
+        run: bash deploy/package.sh "${{ steps.release.outputs.name }}" "${{ inputs.target }}"
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Upload artifact + deploy script to VPS
+        run: |
+          scp -i ~/.ssh/id_ed25519 \
+            /tmp/marina-${{ steps.release.outputs.name }}.tar.gz \
+            deploy/vps-deploy.sh \
+            "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/tmp/"
+
+      - name: Run deploy on VPS
+        run: |
+          ssh -i ~/.ssh/id_ed25519 "${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}" \
+            "chmod +x /tmp/vps-deploy.sh && bash /tmp/vps-deploy.sh ${{ steps.release.outputs.name }} ${{ inputs.target }}"
+
+      - name: Cleanup ssh key
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519
