@@ -85,10 +85,8 @@ export default async function ProdutoDetailPage({
           )}
 
           <div className="mt-10">
-            <h2 className="font-serif text-xl mb-3">Cuidados com a peça</h2>
-            <RichText
-              content={produto.cuidados || config.texto_cuidados_geral || null}
-            />
+            <h2 className="font-serif text-xl mb-3">Cuidados e orientações</h2>
+            <RichText content={config.texto_cuidados_geral || null} />
           </div>
         </div>
       </div>

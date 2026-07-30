@@ -18,8 +18,11 @@ export function mediaUrl(media?: StrapiMedia | null): string | null {
   return `${PUBLIC_STRAPI_URL}${media.url}`;
 }
 
-export function picsumFallback(seed: string, w = 800, h = 800) {
-  return `https://picsum.photos/seed/${encodeURIComponent(seed)}/${w}/${h}`;
+import { placeholderDataUri } from './placeholder';
+
+// Mantém a assinatura antiga (seed continua aceito mas ignorado) pra reduzir mudanças.
+export function picsumFallback(_seed: string, w = 800, h = 800) {
+  return placeholderDataUri(w, h);
 }
 
 async function strapiFetch<T>(path: string, revalidate = 30): Promise<T> {

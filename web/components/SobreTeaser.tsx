@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import type { Sobre } from '@/types/strapi';
-import { mediaUrl, picsumFallback } from '@/lib/strapi';
+import type { ConfigSite } from '@/types/strapi';
+import { mediaUrl } from '@/lib/strapi';
+import { placeholderDataUri } from '@/lib/placeholder';
 
-export function SobreTeaser({ sobre }: { sobre: Sobre | null }) {
+export function SobreTeaser({ config }: { config: ConfigSite }) {
   const foto =
-    mediaUrl(sobre?.foto_marina ?? null) ??
-    picsumFallback('marina-retrato', 700, 900);
+    mediaUrl(config.home_foto_sobre ?? null) ?? placeholderDataUri(700, 900);
 
   return (
     <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">

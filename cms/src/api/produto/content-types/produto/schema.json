@@ -55,9 +55,6 @@
       "type": "integer",
       "min": 0
     },
-    "cuidados": {
-      "type": "richtext"
-    },
     "destaque": {
       "type": "boolean",
       "default": false

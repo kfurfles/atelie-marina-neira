@@ -45,7 +45,6 @@ export type Produto = {
   fotos?: StrapiMedia[];
   situacao: ProdutoStatus;
   prazo_encomenda_dias?: number | null;
-  cuidados?: string | null;
   destaque?: boolean;
 };
 
@@ -62,6 +61,9 @@ export type ConfigSite = {
   hero_subtitulo?: string | null;
   texto_selo_autografo?: string | null;
   texto_cuidados_geral?: string | null;
+  hero_foto_desktop?: StrapiMedia | null;
+  hero_foto_mobile?: StrapiMedia | null;
+  home_foto_sobre?: StrapiMedia | null;
 };
 
 export type StrapiListResponse<T> = {

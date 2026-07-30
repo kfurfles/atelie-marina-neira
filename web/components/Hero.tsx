@@ -1,18 +1,25 @@
-import type { ConfigSite, Sobre } from '@/types/strapi';
-import { mediaUrl, picsumFallback } from '@/lib/strapi';
+import type { ConfigSite } from '@/types/strapi';
+import { mediaUrl } from '@/lib/strapi';
+import { placeholderDataUri } from '@/lib/placeholder';
 
-export function Hero({ config, sobre }: { config: ConfigSite; sobre: Sobre | null }) {
-  const bg =
-    mediaUrl(sobre?.foto_marina ?? null) ??
-    picsumFallback('marina-maos-argila', 1600, 900);
+export function Hero({ config }: { config: ConfigSite }) {
+  const desktop = mediaUrl(config.hero_foto_desktop ?? null);
+  const mobile = mediaUrl(config.hero_foto_mobile ?? null);
+  const placeholder = placeholderDataUri(1600, 900);
+
+  const desktopSrc = desktop ?? mobile ?? placeholder;
+  const mobileSrc = mobile ?? desktop ?? placeholder;
 
   return (
     <section className="relative h-[80vh] min-h-[520px] w-full overflow-hidden">
-      <img
-        src={bg}
-        alt="Marina trabalhando com argila"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      <picture>
+        <source media="(max-width: 767px)" srcSet={mobileSrc} />
+        <img
+          src={desktopSrc}
+          alt="Marina trabalhando com argila"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </picture>
       <div className="absolute inset-0 bg-ink/25" />
       <div className="relative h-full flex items-end">
         <div className="max-w-6xl mx-auto w-full px-6 pb-16">

@@ -34,6 +34,21 @@
     },
     "texto_cuidados_geral": {
       "type": "richtext"
+    },
+    "hero_foto_desktop": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "hero_foto_mobile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "home_foto_sobre": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
     }
   }
 }

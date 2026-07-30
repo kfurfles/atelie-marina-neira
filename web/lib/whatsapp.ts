@@ -78,7 +78,7 @@ export function buildSoldContactMessage(
   siteUrl: string
 ): string {
   const url = `${siteUrl}/pecas/${slug}`;
-  const body = `Olá Marina! Vi a peça *${nome}* (${url}) que está vendida. Você faria uma parecida?`;
+  const body = `Olá Marina! Gostaria de encomendar uma peça igual à *${nome}* (${url}). Podemos conversar?`;
   return whatsappLink(config.whatsapp_numero, body);
 }
 
