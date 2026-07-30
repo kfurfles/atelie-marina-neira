@@ -8,7 +8,7 @@ import { CartIcon } from './CartIcon';
 const links = [
   { href: '/pecas', label: 'Peças' },
   { href: '/categorias', label: 'Categorias' },
-  { href: '/sobre', label: 'Sobre' },
+  { href: '/sobre', label: 'A Artista' },
 ];
 
 export function Header() {
