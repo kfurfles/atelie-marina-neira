@@ -9,7 +9,14 @@ export default async function SobrePage() {
     mediaUrl(sobre?.foto_marina ?? null) ??
     picsumFallback('marina-retrato-sobre', 900, 1100);
 
-  const timeline = [...(sobre?.timeline ?? [])].sort((a, b) => a.ano - b.ano);
+  const timeline = [...(sobre?.timeline ?? [])].sort((a, b) => {
+    const na = parseInt((a.ano ?? '').replace(/\D/g, ''), 10);
+    const nb = parseInt((b.ano ?? '').replace(/\D/g, ''), 10);
+    if (isNaN(na) && isNaN(nb)) return 0;
+    if (isNaN(na)) return 1;
+    if (isNaN(nb)) return -1;
+    return na - nb;
+  });
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
@@ -26,7 +33,9 @@ export default async function SobrePage() {
           {timeline.map((e) => (
             <li key={e.id} className="pl-6 relative">
               <span className="absolute -left-[7px] top-2 w-3 h-3 rounded-full bg-terracota" />
-              <div className="font-serif text-2xl text-terracota">{e.ano}</div>
+              {e.ano && (
+                <div className="font-serif text-2xl text-terracota">{e.ano}</div>
+              )}
               <h3 className="font-serif text-xl mt-1">{e.titulo}</h3>
               {e.descricao && (
                 <p className="text-ink-soft mt-2 leading-relaxed">

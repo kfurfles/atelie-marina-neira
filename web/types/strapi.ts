@@ -15,7 +15,7 @@ export type CampoCustomizacao = {
 
 export type EventoTimeline = {
   id: number;
-  ano: number;
+  ano?: string | null;
   titulo: string;
   descricao?: string | null;
 };
