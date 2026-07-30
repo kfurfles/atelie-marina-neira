@@ -8,8 +8,7 @@
   "options": {},
   "attributes": {
     "ano": {
-      "type": "integer",
-      "required": true
+      "type": "integer"
     },
     "titulo": {
       "type": "string",
